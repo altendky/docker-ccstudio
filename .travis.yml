@@ -10,7 +10,7 @@ jobs:
     - stage: Build
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t ccstudio8 .
+      - travis_wait 30 docker build -t ccstudio8 .
       - docker images
       - docker tag ccstudio8 $DOCKER_USERNAME/ccstudio8
     - stage: Deploy
