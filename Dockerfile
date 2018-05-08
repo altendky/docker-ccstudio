@@ -4,7 +4,7 @@ WORKDIR /ccs_install
 
 RUN apt-get update
 RUN apt-get install -y wget bash
-RUN wget http://software-dl.ti.com/ccs/esd/CCSv8/CCS_8_0_0/exports/CCS8.0.0.00016_linux-x64.tar.gz
+RUN wget --no-verbose http://software-dl.ti.com/ccs/esd/CCSv8/CCS_8_0_0/exports/CCS8.0.0.00016_linux-x64.tar.gz
 RUN tar -xvf CCS8.0.0.00016_linux-x64.tar.gz
 
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
