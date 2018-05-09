@@ -17,13 +17,11 @@ env:
 
 jobs:
   include:
-    - stage: Download
+    - stage: Build
       script:
       - if ! [ -f "$TARPATH" ]; then
           curl "$URL" > "$TARPATH";
         fi
-    - stage: Build
-      script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - travis_wait 30 docker build -t ccstudio8 . --build-arg tarball_path="$TARPATH" --build-arg tarball_name="$TARNAME"
       - docker images
