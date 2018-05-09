@@ -1,11 +1,22 @@
-FROM ubuntu:18.04
+ARG FROM=ubuntu:17.10
+FROM $FROM
 
-ARG tarball_path
-ARG tarball_name
+ARG TARBALL=cache/ccs.tar.gz
+#ARG MAJOR_VERSION=8
+ARG COMPILER_VERSION=6.4
 
 WORKDIR /ccs_install
 
+COPY locale /etc/default
+COPY "$TARBALL" .
+
 RUN apt-get update
+
+RUN apt install -y software-properties-common python3-software-properties
+
+RUN add-apt-repository ppa:pypa/ppa
+RUN apt-get update
+
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libc6:i386                    \
   libx11-6:i386                 \
@@ -34,22 +45,14 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libcanberra-gtk-module:i386   \
   gtk2-engines-murrine:i386     \
   libpython2.7				    \
-  unzip         				\
-  curl
+  unzip
 
-COPY "$tarball_path" .
-RUN mkdir install
-RUN tar xf "$tarball_name" -C install --strip-components 1
+RUN apt-get install -y curl python3 pipenv virtualenv git vim nano
+
 COPY ccstudio_installation_responses .
 
-# https://e2e.ti.com/support/development_tools/code_composer_studio/f/81/t/374161
-RUN install/ccs_setup_linux64_8.0.0.00016.bin --mode unattended --prefix /opt/ti --response-file /ccs_install/ccstudio_installation_responses
-
-RUN /opt/ti/ccsv8/eclipse/ccstudio -application org.eclipse.equinox.p2.director -noSplash -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux -installIUs com.ti.cgt.c2000.6.4.linux.feature.group
-
-RUN rm -r /ccs_install
-
-ENV PATH="/opt/ti/ccsv8/eclipse:${PATH}"
+COPY docker.py .
+RUN python3 docker.py
 
 # workspace folder for CCS
 RUN mkdir /workspace

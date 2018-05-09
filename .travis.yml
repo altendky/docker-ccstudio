@@ -23,7 +23,7 @@ jobs:
           curl "$URL" > "$TARPATH";
         fi
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - travis_wait 30 docker build -t ccstudio8 . --build-arg tarball_path="$TARPATH" --build-arg tarball_name="$TARNAME"
+      - travis_wait 30 docker build -t ccstudio8 .
       - docker images
       - docker tag ccstudio8 $DOCKER_USERNAME/ccstudio8
       - docker images
