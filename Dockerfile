@@ -43,7 +43,7 @@ RUN tar xf "$tarball_name" -C install --strip-components 1
 COPY ccstudio_installation_responses .
 
 # https://e2e.ti.com/support/development_tools/code_composer_studio/f/81/t/374161
-RUN install/ccs_setup_linux64_8.0.0.00016.bin --mode unattended --prefix /opt/ti --response-file ccstudio_installation_responses
+RUN install/ccs_setup_linux64_8.0.0.00016.bin --mode unattended --prefix /opt/ti --response-file /ccs_install/ccstudio_installation_responses
 
 RUN /opt/ti/ccsv8/eclipse/ccstudio -application org.eclipse.equinox.p2.director -noSplash -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux -installIUs com.ti.cgt.c2000.6.4.linux.feature.group
 
