@@ -37,7 +37,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   unzip         				\
   curl
 
-ADD "$tarball_path" .
+COPY "$tarball_path" .
 RUN mkdir install
 RUN tar xf "$tarball_name" -C install --strip-components 1
 COPY ccstudio_installation_responses .
