@@ -1,5 +1,8 @@
 FROM ubuntu:18.04
 
+ARG tarball_path
+ARG tarball_name
+
 WORKDIR /ccs_install
 
 RUN apt-get update
@@ -34,12 +37,13 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   unzip         				\
   curl
 
-ADD cache/ccs.tar.gz .
-RUN tar -xvf ccs.tar.gz
+ADD "$tarball_path" .
+RUN mkdir install
+RUN tar xf "$tarball_name" -C install --strip-components 1
 COPY ccstudio_installation_responses .
 
 # https://e2e.ti.com/support/development_tools/code_composer_studio/f/81/t/374161
-RUN /ccs_install/CCS8.0.0.00016_linux-x64/ccs_setup_linux64_8.0.0.00016.bin --mode unattended --prefix /opt/ti --response-file /ccs_install/ccstudio_installation_responses
+RUN install/ccs_setup_linux64_8.0.0.00016.bin --mode unattended --prefix /opt/ti --response-file ccstudio_installation_responses
 
 RUN /opt/ti/ccsv8/eclipse/ccstudio -application org.eclipse.equinox.p2.director -noSplash -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux -installIUs com.ti.cgt.c2000.6.4.linux.feature.group
 
