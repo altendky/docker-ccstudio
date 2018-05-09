@@ -3,10 +3,6 @@ FROM ubuntu:18.04
 WORKDIR /ccs_install
 
 RUN apt-get update
-RUN apt-get install -y wget bash
-RUN wget --no-verbose http://software-dl.ti.com/ccs/esd/CCSv8/CCS_8_0_0/exports/CCS8.0.0.00016_linux-x64.tar.gz
-RUN tar -xvf CCS8.0.0.00016_linux-x64.tar.gz
-
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libc6:i386                    \
   libx11-6:i386                 \
@@ -36,10 +32,11 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   gtk2-engines-murrine:i386     \
   libpython2.7				    \
   unzip         				\
-  wget
+  curl
 
-# ADD CCS8.0.0.00016_linux-x64.tar.gz /ccs_install
-COPY ccstudio_installation_responses /ccs_install
+ADD cache/ccs.tar.gz .
+RUN tar -xvf ccs.tar.gz
+COPY ccstudio_installation_responses .
 
 # https://e2e.ti.com/support/development_tools/code_composer_studio/f/81/t/374161
 RUN /ccs_install/CCS8.0.0.00016_linux-x64/ccs_setup_linux64_8.0.0.00016.bin --mode unattended --prefix /opt/ti --response-file /ccs_install/ccstudio_installation_responses
