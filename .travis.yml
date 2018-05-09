@@ -13,6 +13,8 @@ jobs:
       - travis_wait 30 docker build -t ccstudio8 .
       - docker images
       - docker tag ccstudio8 $DOCKER_USERNAME/ccstudio8
+      - docker images
     - stage: Deploy
       script:
+      - docker images
       - docker push $DOCKER_USERNAME/ccstudio8
