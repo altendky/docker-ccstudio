@@ -5,9 +5,12 @@ ARG TARBALL=cache/ccs.tar.gz
 #ARG MAJOR_VERSION=8
 ARG COMPILER_VERSION=6.4
 
+ARG LANG=C.UTF-8
+ARG LC_ALL=C.UTF-8
+
+
 WORKDIR /ccs_install
 
-COPY locale /etc/default
 COPY "$TARBALL" .
 
 RUN apt-get update
