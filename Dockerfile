@@ -45,6 +45,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libpython2.7				    \
   unzip
 
+RUN apt-get install -y gcc
 RUN apt-get install -y python3 virtualenv git
 RUN apt-get install -y curl vim nano
 
