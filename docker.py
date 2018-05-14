@@ -13,7 +13,7 @@ def main():
     install = pathlib.Path(os.getcwd())
 
     installer = install / 'installer'
-    installer.mkdir()
+    installer.mkdir(exist_ok=True)
 
     with tarfile.open(pathlib.Path(os.environ['TARBALL']).name) as tarball:
         base, = {
@@ -81,16 +81,16 @@ def main():
 
     ccstudio = installed/'eclipse'/'ccstudio'
 
-    subprocess.run(
-        [
-            ccstudio,
-            '-application', 'org.eclipse.equinox.p2.director',
-            '-noSplash',
-            '-repository', 'http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux',
-            '-installIUs', 'com.ti.cgt.c2000.{}.linux.feature.group'.format(os.environ['COMPILER_VERSION']),
-        ],
-        check=True
-    )
+    # subprocess.run(
+    #     [
+    #         ccstudio,
+    #         '-application', 'org.eclipse.equinox.p2.director',
+    #         '-noSplash',
+    #         '-repository', 'http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux',
+    #         '-installIUs', 'com.ti.cgt.c2000.{}.linux.feature.group'.format(os.environ['COMPILER_VERSION']),
+    #     ],
+    #     check=True
+    # )
 
     shutil.rmtree(install)
 

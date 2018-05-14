@@ -1,4 +1,4 @@
-ARG FROM=ubuntu:17.10
+ARG FROM=ubuntu:18.04
 FROM $FROM
 
 ARG TARBALL=cache/ccs.tar.gz
@@ -15,10 +15,7 @@ COPY "$TARBALL" .
 
 RUN apt-get update
 
-RUN apt install -y software-properties-common python3-software-properties
-
-RUN add-apt-repository ppa:pypa/ppa
-RUN apt-get update
+RUN apt-get install -y software-properties-common python3-software-properties
 
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libc6:i386                    \
@@ -50,7 +47,13 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libpython2.7				    \
   unzip
 
-RUN apt-get install -y curl python3 pipenv virtualenv git vim nano
+RUN apt-get install -y python3 virtualenv git
+RUN apt-get install -y curl vim nano
+
+RUN virtualenv -p python3 /opt/pipenv
+RUN /opt/pipenv/bin/pip install pipenv
+RUN ln -s /opt/pipenv/bin/pipenv /usr/local/bin/pipenv
+RUN ln -s /opt/pipenv/bin/pew /usr/local/bin/pew
 
 COPY ccstudio_installation_responses .
 
