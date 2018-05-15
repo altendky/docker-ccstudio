@@ -24,6 +24,7 @@ jobs:
         fi
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - travis_wait 30 docker build -t ccstudio8 .
+      - docker run --rm -it ccstudio8 /opt/ti/ccsv8/eclipse/ccstudio -noSplash -data ../workspace -application com.ti.ccstudio.apps.projectImport -ccs.help
       - docker images
       - docker tag ccstudio8 $DOCKER_USERNAME/ccstudio8
       - docker images
