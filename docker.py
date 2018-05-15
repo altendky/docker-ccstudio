@@ -29,34 +29,6 @@ def main():
 
     installed = prefix/'ccsv{}'.format(major_version)
 
-    if False:
-        setup_process = subprocess.Popen(
-            [
-                setup,
-                '--mode', 'unattended',
-                '--prefix', prefix,
-                '--response-file', install/'ccstudio_installation_responses',
-            ],
-            check=True
-        )
-
-        install_logs = installed/'install_logs'
-        for parent in install_logs.parents:
-            print('checking: ', parent, parent.exists())
-        install_logs, = install_logs.glob('*')
-        install_log, = install_logs.glob('ccs_setup*_install.log')
-
-        tail_process = subprocess.Popen(
-            [
-                'tail',
-                install_log,
-            ]
-        )
-
-        setup_process.wait()
-        tail_process.terminate()
-        tail_process.wait()
-
     try:
         subprocess.run(
             [
@@ -79,21 +51,9 @@ def main():
 
         raise
 
-    ccstudio = installed/'eclipse'/'ccstudio'
-
-    # subprocess.run(
-    #     [
-    #         ccstudio,
-    #         '-application', 'org.eclipse.equinox.p2.director',
-    #         '-noSplash',
-    #         '-repository', 'http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux',
-    #         '-installIUs', 'com.ti.cgt.c2000.{}.linux.feature.group'.format(os.environ['COMPILER_VERSION']),
-    #     ],
-    #     check=True
-    # )
-
     shutil.rmtree(install)
 
+    ccstudio = installed/'eclipse'/'ccstudio'
     link = pathlib.Path(os.sep)/'usr'/'local'/'bin'/'ccstudio'
     link.symlink_to(ccstudio)
 
