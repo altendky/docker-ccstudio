@@ -47,6 +47,8 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
 
 RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-venv virtualenv git
 RUN apt-get install -y curl vim nano
+# for our python stuff including PyQt5
+RUN apt-get install -y python libgl1
 
 RUN virtualenv -p python3 /opt/pipenv
 RUN /opt/pipenv/bin/pip install pipenv
