@@ -64,9 +64,6 @@ COPY ccstudio_installation_responses .
 COPY docker.py .
 RUN python3 docker.py
 
-RUN ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -uninstallIUs com.ti.cgt.c2000.17.linux.feature.group/18.1.1
-RUN ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -installIUs com.ti.cgt.c2000.17.linux.feature.group/18.1.3
-
 # workspace folder for CCS
 RUN mkdir /workspace
 
