@@ -17,6 +17,7 @@ env:
     - URL=http://software-dl.ti.com/ccs/esd/CCSv8/CCS_8_3_0/exports/CCS8.3.0.00009_linux-x64.tar.gz
     - TARPATH=cache/ccs.tar.gz
     - TARNAME=ccs.tar.gz
+    - IU=com.ti.cgt.c2000.18.linux.feature.group/18.12.1
 
 jobs:
   include:

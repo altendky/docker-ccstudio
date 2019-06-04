@@ -47,22 +47,25 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   openjdk-8-jre                     \
   openjdk-8-jdk-headless            \
   openjdk-8-jre-headless            \
-  unzip
+  unzip                             \
+  libc6:amd64                       \
+  libexpat1:amd64                   \
+  libtinfo6:amd64                   \
+  zlib1g:amd64
 
 RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-venv virtualenv git
 RUN apt-get install -y curl vim nano
 # for our python stuff including PyQt5
 RUN apt-get install -y python libgl1
+# for the post installIUs updater window
+RUN DEBIAN_FRONTEND=noninteractive apt install -y xvfb x11vnc
 
-RUN virtualenv -p python3 /opt/pipenv
-RUN /opt/pipenv/bin/pip install pipenv
-RUN ln -s /opt/pipenv/bin/pipenv /usr/local/bin/pipenv
-RUN ln -s /opt/pipenv/bin/pew /usr/local/bin/pew
+RUN virtualenv -p python3 install_env; install_env/bin/pip install psutil
 
 COPY ccstudio_installation_responses .
 
 COPY docker.py .
-RUN python3 docker.py
+RUN install_env/bin/python3 docker.py
 
 # workspace folder for CCS
 RUN mkdir /workspace
