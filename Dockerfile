@@ -58,26 +58,15 @@ RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-
 RUN apt-get install -y curl vim nano
 # for our python stuff including PyQt5
 RUN apt-get install -y python libgl1
+# for the post installIUs updater window
+RUN DEBIAN_FRONTEND=noninteractive apt install -y xvfb x11vnc
 
-RUN virtualenv -p python3 /opt/pipenv
-RUN /opt/pipenv/bin/pip install pipenv
-RUN ln -s /opt/pipenv/bin/pipenv /usr/local/bin/pipenv
-RUN ln -s /opt/pipenv/bin/pew /usr/local/bin/pew
+RUN virtualenv -p python3 install_env; install_env/bin/pip install psutil
 
 COPY ccstudio_installation_responses .
 
 COPY docker.py .
-RUN python3 docker.py
-
-# something gets installed and asks about stuff so lets avoid that
-RUN export DEBIAN_FRONTEND=noninteractive; \
-    apt install xvfb x11vnc -y; \
-    Xvfb :0 -screen 0 1024x768x16& \
-    x11vnc -display :0& \
-    export DISPLAY=:0; \
-    ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -installIUs com.ti.cgt.c2000.18.linux.feature.group/18.12.1; \
-    ccstudio -noSplash -application com.ti.ccstudio.apps.projectBuild -help; \
-    tail --pid=$(pgrep 'ccs_update*') -f /dev/null
+RUN install_env/bin/python3 -m docker.py
 
 # workspace folder for CCS
 RUN mkdir /workspace
