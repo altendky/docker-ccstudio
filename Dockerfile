@@ -66,7 +66,7 @@ RUN virtualenv -p python3 install_env; install_env/bin/pip install psutil
 COPY ccstudio_installation_responses .
 
 COPY docker.py .
-RUN install_env/bin/python3 -m docker.py
+RUN install_env/bin/python3 docker.py
 
 # workspace folder for CCS
 RUN mkdir /workspace
