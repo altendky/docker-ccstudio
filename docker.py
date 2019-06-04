@@ -60,7 +60,10 @@ def main():
 
     iu = os.environ.get('IU', '')
     if len(iu) > 0:
+        print('Installing IU {}'.format(iu))
         install_iu(iu=iu)
+    else:
+        print('No IU specified for installation')
 
     shutil.rmtree(install)
 
@@ -122,7 +125,13 @@ def install_iu(iu):
             time.sleep(0.1)
             continue
 
+    print(process)
+    before = time.monotonic()
+    print(before)
     process.wait()
+    after = time.monotonic()
+    print(after)
+    print('delta:', after - before)
 
 
 def get_process(pattern):
