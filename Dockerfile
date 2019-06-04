@@ -66,6 +66,7 @@ COPY ccstudio_installation_responses .
 
 COPY docker.py .
 RUN install_env/bin/python3 docker.py
+RUN tail -n +3 /opt/ti/ccsv8/eclipse/ccstudio.ini > /opt/ti/ccsv8/eclipse/ccstudio.ini
 
 # workspace folder for CCS
 RUN mkdir /workspace
