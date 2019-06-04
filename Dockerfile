@@ -35,6 +35,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   liborbit2:i386                    \
   libudev1:i386                     \
   libusb-0.1-4:i386                 \
+  libusb-0.1-4:amd64                \
   libstdc++6:i386                   \
   libstdc++6                        \
   libxt6                            \
