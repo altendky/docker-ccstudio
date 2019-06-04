@@ -51,7 +51,8 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libc6:amd64                       \
   libexpat1:amd64                   \
   libtinfo6:amd64                   \
-  zlib1g:amd64
+  zlib1g:amd64                      \
+  xvfb
 
 RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-venv virtualenv git
 RUN apt-get install -y curl vim nano
@@ -68,8 +69,11 @@ COPY ccstudio_installation_responses .
 COPY docker.py .
 RUN python3 docker.py
 
-RUN ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -installIUs com.ti.cgt.c2000.18.linux.feature.group/18.12.1
-RUN ccstudio -noSplash -application com.ti.ccstudio.apps.projectBuild -help; sleep 5; tail --pid=$(pgrep 'ccs_updater*') -f /dev/null
+RUN ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -installIUs com.ti.cgt.c2000.18.linux.feature.group/18.12.1; \
+    Xvfb :0 -screen 0 1024x768x16& \
+    ccstudio -noSplash -application com.ti.ccstudio.apps.projectBuild -help; \
+    sleep 5; \
+    tail --pid=$(pgrep 'ccs_updater*') -f /dev/null
 
 # workspace folder for CCS
 RUN mkdir /workspace
