@@ -73,7 +73,7 @@ RUN ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository 
     Xvfb :0 -screen 0 1024x768x16& \
     ccstudio -noSplash -application com.ti.ccstudio.apps.projectBuild -help; \
     sleep 5; \
-    tail --pid=$(pgrep 'ccs_updater*') -f /dev/null
+    tail --pid=$(pgrep 'ccs_update*') -f /dev/null
 
 # workspace folder for CCS
 RUN mkdir /workspace
