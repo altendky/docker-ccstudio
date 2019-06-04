@@ -36,16 +36,22 @@ def main():
 
     installed = prefix/'ccsv{}'.format(major_version)
 
+    for parent in reversed(pathlib.Path(setup).parents):
+        print(list(parent.iterdir()))
+
     try:
+        print('setup:', setup)
         subprocess.run(
             [
                 setup,
                 '--mode', 'unattended',
-                '--prefix', prefix,
+                # '--unattendedmodeui', 'none',
+                '--prefix', os.fspath(prefix),
                 '--response-file', install/'ccstudio_installation_responses',
             ],
             check=True
         )
+        print('succcesss--------------------------------')
     except subprocess.CalledProcessError:
         install_logs = installed/'install_logs'
         for parent in install_logs.parents:
@@ -58,21 +64,25 @@ def main():
 
         raise
 
+    ccstudio = installed/'eclipse'/'ccstudio'
+
+    for parent in reversed(ccstudio.parents):
+        print(list(parent.iterdir()))
+
+    link = pathlib.Path(os.sep)/'usr'/'local'/'bin'/'ccstudio'
+    link.symlink_to(ccstudio)
+
     iu = os.environ.get('IU', '')
     if len(iu) > 0:
         print('Installing IU {}'.format(iu))
-        install_iu(iu=iu)
+        install_iu(iu=iu, ccstudio=ccstudio)
     else:
         print('No IU specified for installation')
 
     shutil.rmtree(install)
 
-    ccstudio = installed/'eclipse'/'ccstudio'
-    link = pathlib.Path(os.sep)/'usr'/'local'/'bin'/'ccstudio'
-    link.symlink_to(ccstudio)
 
-
-def install_iu(iu):
+def install_iu(iu, ccstudio):
     xvfb_command = [
         'Xvfb',
         ':0',
@@ -86,7 +96,7 @@ def install_iu(iu):
     ]
 
     install_iu_command = [
-        'ccstudio',
+        os.fspath(ccstudio),
         '-noSplash',
         '-application',
         'org.eclipse.equinox.p2.director',
@@ -98,7 +108,7 @@ def install_iu(iu):
     ]
 
     post_install_command = [
-        'ccstudio',
+        os.fspath(ccstudio),
         '-noSplash',
         '-application', 'com.ti.ccstudio.apps.projectBuild',
         '-help',
@@ -136,7 +146,7 @@ def install_iu(iu):
 
 def get_process(pattern):
     for process in psutil.process_iter():
-        if re.search(pattern, process.name):
+        if re.search(pattern, process.name()):
             return process
 
     raise ProcessNotFoundError(

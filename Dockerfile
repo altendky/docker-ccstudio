@@ -53,14 +53,16 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libc6:amd64                       \
   libexpat1:amd64                   \
   libtinfo6:amd64                   \
-  zlib1g:amd64
+  zlib1g:amd64                      \
+  libgcc1:amd64                     \
+  base-files
 
 RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-venv virtualenv git
 RUN apt-get install -y curl vim nano
 # for our python stuff including PyQt5
 RUN apt-get install -y python libgl1
 # for the post installIUs updater window
-RUN DEBIAN_FRONTEND=noninteractive apt install -y xvfb x11vnc
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb x11vnc
 
 RUN virtualenv -p python3 install_env; install_env/bin/pip install psutil
 
