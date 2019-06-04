@@ -69,10 +69,14 @@ COPY ccstudio_installation_responses .
 COPY docker.py .
 RUN python3 docker.py
 
-RUN ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -installIUs com.ti.cgt.c2000.18.linux.feature.group/18.12.1; \
+# something gets installed and asks about stuff so lets avoid that
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    apt install xvfb x11vnc -y; \
     Xvfb :0 -screen 0 1024x768x16& \
+    x11vnc -display :0& \
+    export DISPLAY=:0; \
+    ccstudio -noSplash -application org.eclipse.equinox.p2.director -repository http://software-dl.ti.com/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/ -installIUs com.ti.cgt.c2000.18.linux.feature.group/18.12.1; \
     ccstudio -noSplash -application com.ti.ccstudio.apps.projectBuild -help; \
-    sleep 5; \
     tail --pid=$(pgrep 'ccs_update*') -f /dev/null
 
 # workspace folder for CCS
