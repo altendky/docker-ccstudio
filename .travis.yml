@@ -24,7 +24,7 @@ jobs:
     - stage: Build
       script:
       - if ! [ -f "$TARPATH" ]; then
-          curl "$URL" > "$TARPATH";
+          curl --location "$URL" > "$TARPATH";
         fi
       - ls -l "$TARPATH"
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
