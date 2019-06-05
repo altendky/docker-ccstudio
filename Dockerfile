@@ -31,6 +31,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libgtk-3-0:i386                   \
   libice6:i386                      \
   libncurses5:i386                  \
+  libncurses5:amd64                 \
   libsm6:i386                       \
   liborbit2:i386                    \
   libudev1:i386                     \
@@ -44,6 +45,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libgnomeui-0:i386                 \
   libusb-1.0-0-dev:i386             \
   libcanberra-gtk-module:i386       \
+  libcanberra-gtk-module:amd64      \
   gtk2-engines-murrine:i386         \
   libpython2.7                      \
   openjdk-8-jdk                     \
