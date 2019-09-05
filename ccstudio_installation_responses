@@ -1,6 +1,6 @@
 CreateDesktopShortcut: Yes
 CreateQuickLaunchShortcut: Yes
-InstallDir: /opt/ti
+InstallDir: /opt/ti/ccsv9
 InstallMode: Standard
 LaunchApplication: No
 edition_selection: Custom
