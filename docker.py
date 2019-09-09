@@ -30,11 +30,10 @@ def main():
         tarball.extractall(path=installer)
 
     setup, = (installer/base).glob('ccs_setup_*.bin')
-    major_version = int(re.match('.*_(\d+).*', setup.name)[1])
 
     prefix = pathlib.Path(os.sep)/'opt'/'ti'
 
-    installed = prefix/'ccsv{}'.format(major_version)
+    installed = prefix/'ccs'
 
     for parent in reversed(pathlib.Path(setup).parents):
         print(list(parent.iterdir()))
