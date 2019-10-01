@@ -71,17 +71,32 @@ def main():
     link = pathlib.Path(os.sep)/'usr'/'local'/'bin'/'ccstudio'
     link.symlink_to(ccstudio)
 
-    iu = os.environ.get('IU', '')
-    if len(iu) > 0:
-        print('Installing IU {}'.format(iu))
-        install_iu(iu=iu, ccstudio=ccstudio)
+    iu_to_install = os.environ.get('INSTALL_IU', '')
+    if len(iu_to_install) > 0:
+        print('Installing IU {}'.format(iu_to_install))
+        install_iu(iu=iu_to_install, ccstudio=ccstudio)
     else:
         print('No IU specified for installation')
+
+    iu_to_uninstall = os.environ.get('UNINSTALL_IU', '')
+    if len(iu_to_uninstall) > 0:
+        print('Uninstalling IU {}'.format(iu_to_uninstall))
+        uninstall_iu(iu=iu_to_uninstall, ccstudio=ccstudio)
+    else:
+        print('No IU specified for uninstallation')
 
     shutil.rmtree(install)
 
 
 def install_iu(iu, ccstudio):
+    process_iu(iu=iu, ccstudio=ccstudio, command='-installIUs')
+
+
+def uninstall_iu(iu, ccstudio):
+    process_iu(iu=iu, ccstudio=ccstudio, command='-uninstallIUs')
+
+
+def process_iu(iu, ccstudio, command):
     xvfb_command = [
         'Xvfb',
         ':0',
@@ -103,7 +118,7 @@ def install_iu(iu, ccstudio):
             'http://software-dl.ti.com'
             '/dsps/dsps_public_sw/sdo_ccstudio/codegen/Updates/p2linux/'
             ),
-        '-installIUs', iu,
+        command, iu,
     ]
 
     post_install_command = [
