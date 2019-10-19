@@ -55,7 +55,11 @@ def main():
         install_logs = installed/'install_logs'
         for parent in install_logs.parents:
             print('checking: ', parent, parent.exists())
-        install_logs, = install_logs.glob('*')
+        install_logs = install_logs.glob('*')
+        print('potential install logs:')
+        for maybe in install_logs:
+            print('   ', maybe)
+        install_logs, = install_logs
         install_log, = install_logs.glob('ccs_setup*_install.log')
         with open(install_log) as f:
             for line in f:
