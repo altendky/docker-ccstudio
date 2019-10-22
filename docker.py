@@ -55,7 +55,7 @@ def main():
         install_logs = installed/'install_logs'
         for parent in install_logs.parents:
             print('checking: ', parent, parent.exists())
-        install_logs = install_logs.glob('*')
+        install_logs = list(install_logs.glob('*'))
         print('potential install logs:')
         for maybe in install_logs:
             print('   ', maybe)
