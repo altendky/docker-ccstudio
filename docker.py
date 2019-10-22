@@ -59,11 +59,11 @@ def main():
         print('potential install logs:')
         for maybe in install_logs:
             print('   ', maybe)
-        install_logs, = install_logs
-        install_log, = install_logs.glob('ccs_setup*_install.log')
-        with open(install_log) as f:
-            for line in f:
-                sys.stdout.write(line)
+        for install_log in install_logs:
+            print('    --------: {}'.format(install_log))
+            with open(install_log) as f:
+                for line in f:
+                    sys.stdout.write(line)
 
         raise
 
