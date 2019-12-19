@@ -43,10 +43,10 @@ def main():
         subprocess.run(
             [
                 setup,
+                '--unattendedmodeui', 'none',
                 '--mode', 'unattended',
-                # '--unattendedmodeui', 'none',
+                '--enable-components', 'PF_C28',
                 '--prefix', os.fspath(prefix),
-                '--response-file', install/'ccstudio_installation_responses',
             ],
             check=True
         )
