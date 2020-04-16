@@ -1,4 +1,4 @@
-ARG FROM=ubuntu:19.04
+ARG FROM=ubuntu:18.04
 FROM $FROM
 
 ARG TARBALL=cache/ccs.tar.gz

@@ -13,7 +13,7 @@ env:
   global:
     - MAJOR_VERSION=9
     - IMAGE_NAME=ccstudio$MAJOR_VERSION
-    - BASE_IMAGE_NAME=ubuntu:19.04
+    - BASE_IMAGE_NAME=ubuntu:18.04
     - URL=https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
     - TARPATH=cache/ccs.tar.gz
     - TARNAME=ccs.tar.gz
