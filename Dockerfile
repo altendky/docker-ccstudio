@@ -55,12 +55,11 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   unzip                             \
   libc6:amd64                       \
   libexpat1:amd64                   \
-  libtinfo6:amd64                   \
   zlib1g:amd64                      \
   libgcc1:amd64                     \
   base-files
 
-RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-venv virtualenv git
+RUN apt-get install -y gcc libdpkg-perl lsb-release python3.7 python3.7-dev python3.7-venv virtualenv git
 RUN apt-get install -y curl vim nano tree
 # for our python stuff including PyQt5
 RUN apt-get install -y python libgl1
