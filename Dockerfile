@@ -66,7 +66,7 @@ RUN apt-get install -y python libgl1
 # for the post installIUs updater window
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb x11vnc
 
-RUN virtualenv -p python3 install_env; install_env/bin/pip install psutil
+RUN virtualenv -p python3.7 install_env; install_env/bin/pip install psutil
 
 COPY docker.py .
 RUN install_env/bin/python3 docker.py
