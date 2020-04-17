@@ -1,4 +1,4 @@
-ARG FROM=ubuntu:19.04
+ARG FROM=altendky/hydra:ubuntu-20.04-3-minors
 FROM $FROM
 
 ARG TARBALL=cache/ccs.tar.gz
@@ -33,7 +33,6 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libncurses5:i386                  \
   libncurses5:amd64                 \
   libsm6:i386                       \
-  liborbit2:i386                    \
   libudev1:i386                     \
   libusb-0.1-4:i386                 \
   libusb-0.1-4:amd64                \
@@ -42,7 +41,6 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   libxt6                            \
   libxt6:i386                       \
   libxtst6:i386                     \
-  libgnomeui-0:i386                 \
   libusb-1.0-0-dev:i386             \
   libcanberra-gtk-module:i386       \
   libcanberra-gtk-module:amd64      \
@@ -55,19 +53,18 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
   unzip                             \
   libc6:amd64                       \
   libexpat1:amd64                   \
-  libtinfo6:amd64                   \
   zlib1g:amd64                      \
   libgcc1:amd64                     \
   base-files
 
-RUN apt-get install -y gcc libdpkg-perl lsb-release python3 python3-dev python3-venv virtualenv git
+RUN apt-get install -y gcc libdpkg-perl lsb-release git
 RUN apt-get install -y curl vim nano tree
 # for our python stuff including PyQt5
 RUN apt-get install -y python libgl1
 # for the post installIUs updater window
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb x11vnc
 
-RUN virtualenv -p python3 install_env; install_env/bin/pip install psutil
+RUN python3 -m venv install_env; install_env/bin/pip install psutil
 
 COPY docker.py .
 RUN install_env/bin/python3 docker.py
