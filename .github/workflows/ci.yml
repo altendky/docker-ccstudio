@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  MAJOR_VERSION=9
+  IMAGE_NAME=ccstudio$MAJOR_VERSION
+  BASE_IMAGE_NAME=altendky/hydra:ubuntu-20.04-3-minors
+  URL=https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
+  TARPATH=cache/ccs.tar.gz
+  TARNAME=ccs.tar.gz
+# this version presently comes with what we want so...  comments it is
+#    INSTALL_IU=com.ti.cgt.c2000.18.linux.feature.group/18.12.3
+#    UNINSTALL_IU=com.ti.cgt.c2000.18.linux.feature.group/18.12.2
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - uses: twisted/python-info-action@v1.0.1
+
+    - name: Everything
+      run: |
+        if ! [ -f "$TARPATH" ]; then
+          curl --location "$URL" > "$TARPATH";
+        fi
+        ls -l "$TARPATH"
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker build --pull --no-cache -t $IMAGE_NAME . --build-arg FROM="$BASE_IMAGE_NAME" --build-arg IU="$IU"
+        docker run --rm -it $IMAGE_NAME ccstudio -noSplash -data /workspace -application com.ti.ccstudio.apps.projectImport -ccs.help | grep -i usage
+        docker tag $IMAGE_NAME $DOCKER_USERNAME/$IMAGE_NAME
+        docker push $DOCKER_USERNAME/$IMAGE_NAME
