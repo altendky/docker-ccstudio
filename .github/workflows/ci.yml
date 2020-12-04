@@ -2,20 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ develop ]
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
 
 env:
-  MAJOR_VERSION=9
-  IMAGE_NAME=ccstudio$MAJOR_VERSION
-  BASE_IMAGE_NAME=altendky/hydra:ubuntu-20.04-3-minors
-  URL=https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
-  TARPATH=cache/ccs.tar.gz
-  TARNAME=ccs.tar.gz
+  MAJOR_VERSION: 9
+  IMAGE_NAME: ccstudio$MAJOR_VERSION
+  BASE_IMAGE_NAME: altendky/hydra:ubuntu-20.04-3-minors
+  URL: https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
+  TARPATH: cache/ccs.tar.gz
+  TARNAME: ccs.tar.gz
 # this version presently comes with what we want so...  comments it is
-#    INSTALL_IU=com.ti.cgt.c2000.18.linux.feature.group/18.12.3
-#    UNINSTALL_IU=com.ti.cgt.c2000.18.linux.feature.group/18.12.2
+#    INSTALL_IU: com.ti.cgt.c2000.18.linux.feature.group/18.12.3
+#    UNINSTALL_IU: com.ti.cgt.c2000.18.linux.feature.group/18.12.2
 
 jobs:
   Build:
