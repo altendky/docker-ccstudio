@@ -43,3 +43,6 @@ jobs:
         docker run --rm -it $IMAGE_NAME ccstudio -noSplash -data /workspace -application com.ti.ccstudio.apps.projectImport -ccs.help | grep -i usage
         docker tag $IMAGE_NAME $DOCKER_USERNAME/$IMAGE_NAME
         docker push $DOCKER_USERNAME/$IMAGE_NAME
+      env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
