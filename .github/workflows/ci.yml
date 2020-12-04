@@ -8,7 +8,7 @@ on:
 
 env:
   MAJOR_VERSION: 9
-  IMAGE_NAME: ccstudio$MAJOR_VERSION
+  IMAGE_NAME: ccstudio9
   BASE_IMAGE_NAME: altendky/hydra:ubuntu-20.04-3-minors
   URL: https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
   TARPATH: cache/ccs.tar.gz
