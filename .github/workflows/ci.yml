@@ -40,7 +40,7 @@ jobs:
         ls -l "$TARPATH"
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         docker build --pull --no-cache -t $IMAGE_NAME . --build-arg FROM="$BASE_IMAGE_NAME" --build-arg IU="$IU"
-        docker run --rm -it $IMAGE_NAME ccstudio -noSplash -data /workspace -application com.ti.ccstudio.apps.projectImport -ccs.help | grep -i usage
+        docker run --rm -i $IMAGE_NAME ccstudio -noSplash -data /workspace -application com.ti.ccstudio.apps.projectImport -ccs.help | grep -i usage
         docker tag $IMAGE_NAME $DOCKER_USERNAME/$IMAGE_NAME
         docker push $DOCKER_USERNAME/$IMAGE_NAME
       env:
