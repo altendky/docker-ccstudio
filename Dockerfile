@@ -17,7 +17,7 @@ COPY "$TARBALL" .
 
 RUN apt-get update
 
-RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -o APT::Immediate-Configure=false -y \
   libc6:i386                        \
   libx11-6:i386                     \
   libasound2:i386                   \
@@ -64,7 +64,7 @@ RUN apt-get install -y python libgl1
 # for the post installIUs updater window
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb x11vnc
 
-RUN python3 -m venv install_env; install_env/bin/pip install psutil
+RUN python3 -m venv install_env && install_env/bin/pip install --upgrade pip setuptools wheel && install_env/bin/pip install psutil
 
 COPY docker.py .
 RUN install_env/bin/python3 docker.py
