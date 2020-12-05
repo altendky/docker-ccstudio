@@ -57,7 +57,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -o APT::Im
   libgcc1:amd64                     \
   base-files
 
-RUN apt-get install -y gcc libdpkg-perl lsb-release git autoconf
+RUN apt-get install -y gcc libdpkg-perl lsb-release git autoconf libtool
 RUN apt-get install -y curl vim nano tree
 # for our python stuff including PyQt5
 RUN apt-get install -y python libgl1
