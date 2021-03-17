@@ -17,7 +17,8 @@ COPY "$TARBALL" .
 
 RUN apt-get update
 
-RUN dpkg --add-architecture i386 && apt-get update && apt-get install -o APT::Immediate-Configure=false -y \
+ADD install-packages.sh .
+RUN ./install-packages.sh --option APT::Immediate-Configure=false \
   libc6:i386                        \
   libx11-6:i386                     \
   libasound2:i386                   \
@@ -55,7 +56,8 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -o APT::Im
   libexpat1:amd64                   \
   zlib1g:amd64                      \
   libgcc1:amd64                     \
-  base-files
+  base-files                        \
+  python3
 
 RUN apt-get install -y gcc libdpkg-perl lsb-release git autoconf libtool
 RUN apt-get install -y curl vim nano tree
@@ -64,10 +66,12 @@ RUN apt-get install -y python libgl1
 # for the post installIUs updater window
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb x11vnc
 
-RUN python3 -m venv install_env && install_env/bin/pip install --upgrade pip setuptools wheel && install_env/bin/pip install psutil
-
 COPY docker.py .
-RUN install_env/bin/python3 docker.py
+RUN python3 -m venv install_env \
+  && install_env/bin/pip install --upgrade pip setuptools wheel \
+  && install_env/bin/pip install psutil \
+  && install_env/bin/python3 docker.py \
+  && rm -rf install_env docker.py
 
 # workspace folder for CCS
 RUN mkdir /workspace
@@ -75,3 +79,6 @@ RUN mkdir /workspace
 # directory for the ccs project
 VOLUME /wd
 WORKDIR /wd
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
