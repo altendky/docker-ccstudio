@@ -8,7 +8,7 @@ on:
 
 env:
   MAJOR_VERSION: 9
-  BASE_IMAGE_NAME: ubuntu:focal-20210217
+  BASE_IMAGE_NAME: altendky/c2prog:latest
   URL: https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
   TARPATH: cache/ccs.tar.gz
   TARNAME: ccs.tar.gz
