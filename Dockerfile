@@ -1,20 +1,10 @@
 ARG FROM="ubuntu:focal-20210217"
-FROM $FROM
 
-ARG TARBALL=cache/ccs.tar.gz
-ARG COMPILER_VERSION=6.4
-
-ARG IU=
+FROM $FROM as common
 
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
-
-WORKDIR /ccs_install
-
-COPY "$TARBALL" .
-
-RUN apt-get update
 
 ADD install-packages.sh .
 RUN ./install-packages.sh \
@@ -58,9 +48,6 @@ RUN ./install-packages.sh \
   libgcc1:amd64 \
   base-files \
   \
-  python3 \
-  python3-venv \
-  \
   gcc \
   libdpkg-perl \
   lsb-release \
@@ -77,12 +64,30 @@ RUN ./install-packages.sh \
   \
   ca-certificates
 
+FROM common as build
+
+ARG TARBALL=cache/ccs.tar.gz
+ARG INSTALL_IU=
+ARG UNINSTALL_IU=
+
+WORKDIR /ccs_install
+
+COPY "$TARBALL" the.tar.gz
+
 COPY docker.py .
-RUN python3 -m venv install_env \
-  && install_env/bin/pip install --upgrade pip setuptools wheel \
-  && install_env/bin/pip install psutil \
-  && install_env/bin/python3 docker.py \
-  && rm -rf install_env docker.py
+
+ADD install-packages.sh .
+RUN ./install-packages.sh \
+  python3 \
+  python3-venv
+
+RUN python3 -m venv install_env
+RUN install_env/bin/pip install --upgrade pip setuptools wheel
+RUN install_env/bin/pip install click psutil
+RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTALL_IU" --uninstall-iu "$UNINSTALL_IU"
+
+FROM common
+COPY --from=build /opt/ti/ccs /opt/ti/ccs
 
 # workspace folder for CCS
 RUN mkdir /workspace

@@ -72,9 +72,7 @@ jobs:
         run: |
           mkdir report_size
           cd report_size
-          docker save ${{ fromJSON(steps.variables.outputs.name_and_tag) }} | gzip > c2p.tar.gz
-          ls -lh c2p.tar.gz
-          rm c2p.tar.gz
+          docker save ${{ fromJSON(steps.variables.outputs.name_and_tag) }} | gzip | wc --bytes
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
