@@ -66,7 +66,7 @@ jobs:
       - name: Test
         run: |
           docker run --pull never --interactive --rm ${{ fromJSON(steps.variables.outputs.name_and_tag) }} -noSplash -data /workspace -application com.ti.ccstudio.apps.projectImport -ccs.help | tee run.log
-          grep --quiet 'usage' run.log
+          grep --ignore-case --quiet 'usage' run.log
 
       - name: Report size
         run: |
