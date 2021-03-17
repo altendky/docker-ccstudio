@@ -27,25 +27,25 @@ def main():
     else:
         publish_label = None
 
-    publish = False
+    publish_image = False
+    publish_readme = False
     tag = "latest"
 
     if is_main:
         if is_push:
-            publish = True
+            publish_image = True
+            publish_readme = True
     elif publish_label is not None:
-        publish = True
+        publish_image = True
         tag = f"pr{pull_request_number}"
 
     name_and_tag = f"{name}:{tag}"
 
-    set_output("publish", publish)
+    set_output("publish_image", publish_image)
+    set_output("publish_readme", publish_readme)
     set_output("name", name)
     set_output("tag", tag)
     set_output("name_and_tag", name_and_tag)
-    set_output(
-        "c2prog_url", "http://permanent.fstab.net/c2prog/C2Prog-v1.8.10-r1.tar.gz"
-    )
     set_output("dockerhub_username", "altendky")
 
 

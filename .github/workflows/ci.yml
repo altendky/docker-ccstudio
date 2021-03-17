@@ -76,19 +76,19 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
-        if: ${{ fromJSON(steps.variables.outputs.publish) }}
+        if: ${{ fromJSON(steps.variables.outputs.publish_image) }}
         with:
           username: ${{ fromJSON(steps.variables.outputs.dockerhub_username) }}
           password: ${{ secrets.DOCKERHUB_PAT }}
 
       - name: Push
-        if: ${{ fromJSON(steps.variables.outputs.publish) }}
+        if: ${{ fromJSON(steps.variables.outputs.publish_image) }}
         run: |
           docker push ${{ fromJSON(steps.variables.outputs.name_and_tag) }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
-        if: ${{ fromJSON(steps.variables.outputs.publish) }}
+        if: ${{ fromJSON(steps.variables.outputs.publish_readme) }}
         with:
           username: ${{ fromJSON(steps.variables.outputs.dockerhub_username) }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
