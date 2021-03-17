@@ -69,7 +69,6 @@ RUN ./install-packages.sh \
   vim \
   nano \
   tree \
-  libgl1 \
   xvfb \
   x11vnc
 
