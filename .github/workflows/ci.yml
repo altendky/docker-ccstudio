@@ -82,12 +82,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PAT }}
 
       - name: Push
-        uses: docker/build-push-action@v2
         if: ${{ fromJSON(steps.variables.outputs.publish) }}
-        with:
-          context: .
-          push: true
-          tags: ${{ fromJSON(steps.variables.outputs.name_and_tag) }}
+        run: |
+          docker push ${{ fromJSON(steps.variables.outputs.name_and_tag) }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
