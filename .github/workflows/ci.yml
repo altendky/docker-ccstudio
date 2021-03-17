@@ -54,8 +54,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           build-args: |
-            FROM="${{ env.BASE_IMAGE_NAME }}"
-            IU="${{ env.IU }}"
+            FROM=${{ env.BASE_IMAGE_NAME }}
+            IU=${{ env.IU }}
           context: .
           load: true
           tags: ${{ fromJSON(steps.variables.outputs.name_and_tag) }}
