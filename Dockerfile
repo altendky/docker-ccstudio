@@ -89,6 +89,8 @@ RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTAL
 FROM common
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
 
+RUN ln -s /opt/ti/ccs/eclipse/ccstudio /usr/bin/
+
 # workspace folder for CCS
 RUN mkdir /workspace
 
