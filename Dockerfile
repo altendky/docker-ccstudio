@@ -59,18 +59,23 @@ RUN ./install-packages.sh \
   base-files \
   \
   python3 \
+  python3-venv \
   \
   gcc \
   libdpkg-perl \
-  lsb-release git \
+  lsb-release \
+  git \
   autoconf \
   libtool \
   curl \
   vim \
   nano \
   tree \
+  \
   xvfb \
-  x11vnc
+  x11vnc \
+  \
+  ca-certificates
 
 COPY docker.py .
 RUN python3 -m venv install_env \
