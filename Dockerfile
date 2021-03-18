@@ -53,6 +53,8 @@ RUN ./install-packages.sh \
   lsb-release \
   git \
   autoconf \
+  autotools-dev \
+  automake \
   libtool \
   curl \
   vim \
