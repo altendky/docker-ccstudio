@@ -49,6 +49,8 @@ RUN ./install-packages.sh \
   base-files \
   \
   gcc \
+  g++ \
+  make \
   libdpkg-perl \
   lsb-release \
   git \
