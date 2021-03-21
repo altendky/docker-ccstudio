@@ -9,6 +9,7 @@ import sys
 import tarfile
 import time
 
+import click
 import psutil
 
 
@@ -16,13 +17,18 @@ class ProcessNotFoundError(Exception):
     pass
 
 
-def main():
+@click.command()
+@click.option('--tarball', required=True, type=click.Path(dir_okay=False, exists=True))
+@click.option('--install-iu', default='')
+@click.option('--uninstall-iu', default='')
+def main(tarball, install_iu, uninstall_iu):
+    tarball_path = pathlib.Path(tarball)
     install = pathlib.Path(os.getcwd())
 
     installer = install / 'installer'
     installer.mkdir(exist_ok=True)
 
-    with tarfile.open(pathlib.Path(os.environ['TARBALL']).name) as tarball:
+    with tarfile.open(tarball_path.name) as tarball:
         base, = {
             pathlib.Path(member.name).parts[0]
             for member in tarball.getmembers()
@@ -79,14 +85,14 @@ def main():
     link = pathlib.Path(os.sep)/'usr'/'local'/'bin'/'ccstudio'
     link.symlink_to(ccstudio)
 
-    iu_to_install = os.environ.get('INSTALL_IU', '')
+    iu_to_install = install_iu
     if len(iu_to_install) > 0:
         print('Installing IU {}'.format(iu_to_install))
         install_iu(iu=iu_to_install, ccstudio=ccstudio)
     else:
         print('No IU specified for installation')
 
-    iu_to_uninstall = os.environ.get('UNINSTALL_IU', '')
+    iu_to_uninstall = uninstall_iu
     if len(iu_to_uninstall) > 0:
         print('Uninstalling IU {}'.format(iu_to_uninstall))
         uninstall_iu(iu=iu_to_uninstall, ccstudio=ccstudio)
@@ -176,5 +182,4 @@ def get_process(pattern):
     )
 
 
-if __name__ == '__main__':
-    sys.exit(main())
+sys.exit(main())
