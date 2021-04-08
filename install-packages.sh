@@ -18,6 +18,11 @@ export DEBIAN_FRONTEND=noninteractive
 # Update the package listing, so we know what package exist:
 apt-get update
 
+#install universe so we can install more packages & update the package listing again
+apt-get install -y software-properties-common
+add-apt-repository universe          
+apt-get update
+
 # Install security updates:
 apt-get --yes upgrade
 

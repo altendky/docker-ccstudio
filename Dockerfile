@@ -62,6 +62,13 @@ RUN ./install-packages.sh \
   vim \
   nano \
   tree \
+  clang \
+  \
+  bear \
+  clang-tidy \
+  pylint3 \
+  flake8 \
+  mypy \
   \
   xvfb \
   x11vnc \
