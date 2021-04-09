@@ -24,6 +24,8 @@ add-apt-repository universe
 apt-get update
 
 #download & install oclint (no apt-get)
+apt-get install -y wget
+apt-get install -y tar
 wget https://github.com/oclint/oclint/releases/download/v21.03/oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz
 tar -xf oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz
 
