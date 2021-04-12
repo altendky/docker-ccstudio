@@ -23,6 +23,8 @@ apt-get install -y software-properties-common
 add-apt-repository universe          
 apt-get update
 
+apt-get install -y tar
+
 #download & install oclint (no apt-get)
 #apt-get install -y wget
 #apt-get install -y tar
