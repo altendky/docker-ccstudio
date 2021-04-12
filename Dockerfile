@@ -105,7 +105,9 @@ RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTAL
 
 FROM common
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
-COPY --from=build oclint-21.03/ /oclint-21.03/
+RUN pwd
+RUN ls -la
+COPY --from=build /ccsinstall/oclint-21.03/ oclint-21.03/
 RUN pwd
 RUN ls -la
 
