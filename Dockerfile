@@ -93,7 +93,9 @@ RUN ./install-packages.sh \
   python3-venv
 
 RUN apt-get install -y tar
-#RUN curl --location https://github.com/oclint/oclint/releases/download/v21.03/oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz | tar -xz
+RUN apt-get install -y curl
+
+RUN curl --location https://github.com/oclint/oclint/releases/download/v21.03/oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz | tar -xz
 #COPY --from=build /oclint-21.03 /oclint-21.03
 
 RUN python3 -m venv install_env
