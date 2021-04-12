@@ -104,10 +104,10 @@ RUN install_env/bin/pip install click psutil
 RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTALL_IU" --uninstall-iu "$UNINSTALL_IU"
 
 FROM common
+COPY --from=build /ccsinstall/oclint-21.03 /opt/ci/oclint-21.03
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
 RUN pwd
 RUN ls -la
-COPY --from=build /ccsinstall/oclint-21.03 /opt/ci/oclint-21.03
 RUN pwd
 RUN ls -la /opt/ti
 
