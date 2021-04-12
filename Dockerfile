@@ -107,9 +107,9 @@ FROM common
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
 RUN pwd
 RUN ls -la
-COPY --from=build /ccsinstall/oclint-21.03/ oclint-21.03/
+COPY --from=build /ccsinstall/oclint-21.03 /opt/ci/oclint-21.03
 RUN pwd
-RUN ls -la
+RUN ls -la /opt/ti
 
 RUN ln -s /opt/ti/ccs/eclipse/ccstudio /usr/bin/
 
