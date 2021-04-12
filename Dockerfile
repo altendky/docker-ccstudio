@@ -77,6 +77,13 @@ RUN ./install-packages.sh \
 
 FROM common as build
 
+RUN apt-get install -y tar
+RUN apt-get install -y curl
+
+RUN curl --location https://github.com/oclint/oclint/releases/download/v21.03/oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz | tar -xz
+RUN pwd
+RUN ls
+
 ARG TARBALL=cache/ccs.tar.gz
 ARG INSTALL_IU=
 ARG UNINSTALL_IU=
@@ -92,19 +99,14 @@ RUN ./install-packages.sh \
   python3 \
   python3-venv
 
-RUN apt-get install -y tar
-RUN apt-get install -y curl
 
-RUN curl --location https://github.com/oclint/oclint/releases/download/v21.03/oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz | tar -xz
-RUN pwd
-RUN ls
 RUN python3 -m venv install_env
 RUN install_env/bin/pip install --upgrade pip setuptools wheel
 RUN install_env/bin/pip install click psutil
 RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTALL_IU" --uninstall-iu "$UNINSTALL_IU"
 
 FROM common
-COPY --from=build /ccsinstall/oclint-21.03 /opt/ci/oclint-21.03
+COPY --from=build /oclint-21.03 /opt/ti/oclint-21.03
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
 RUN pwd
 RUN ls -la
