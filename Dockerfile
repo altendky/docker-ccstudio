@@ -104,7 +104,7 @@ RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTAL
 
 FROM common
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
-COPY --from=build oclint-21.03 /oclint-21.03
+COPY --from=build /oclint-21.03 /oclint-21.03
 
 RUN ln -s /opt/ti/ccs/eclipse/ccstudio /usr/bin/
 
