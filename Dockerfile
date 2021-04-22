@@ -47,6 +47,7 @@ RUN ./install-packages.sh \
   zlib1g:amd64 \
   libgcc1:amd64 \
   base-files \
+  doxygen \
   \
   gcc \
   g++ \
