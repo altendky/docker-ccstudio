@@ -71,8 +71,8 @@ RUN ./install-packages.sh \
 FROM common as build
 
 ARG TARBALL=cache/ccs.tar.gz
-ARG INSTALL_IU=
-ARG UNINSTALL_IU=
+ARG INSTALL_IUS=
+ARG UNINSTALL_IUS=
 
 WORKDIR /ccs_install
 
@@ -88,7 +88,7 @@ RUN ./install-packages.sh \
 RUN python3 -m venv install_env
 RUN install_env/bin/pip install --upgrade pip setuptools wheel
 RUN install_env/bin/pip install click psutil
-RUN install_env/bin/python3 docker.py --tarball the.tar.gz --install-iu "$INSTALL_IU" --uninstall-iu "$UNINSTALL_IU"
+RUN install_env/bin/python3 docker.py --tarball the.tar.gz
 
 FROM common
 COPY --from=build /opt/ti/ccs /opt/ti/ccs

@@ -19,9 +19,9 @@ class ProcessNotFoundError(Exception):
 
 @click.command()
 @click.option('--tarball', required=True, type=click.Path(dir_okay=False, exists=True))
-@click.option('--install-iu', default='')
-@click.option('--uninstall-iu', default='')
-def main(tarball, install_iu, uninstall_iu):
+@click.option('--install-iu', 'install_ius', envvar='INSTALL_IUS', multiple=True)
+@click.option('--uninstall-iu', 'uninstall_ius', envvar='UNINSTALL_IUS', multiple=True)
+def main(tarball, install_ius, uninstall_ius):
     tarball_path = pathlib.Path(tarball)
     install = pathlib.Path(os.getcwd())
 
@@ -56,7 +56,7 @@ def main(tarball, install_iu, uninstall_iu):
             ],
             check=True
         )
-        print('succcesss--------------------------------')
+        print('success--------------------------------')
     except subprocess.CalledProcessError:
         install_logs = installed/'install_logs'
         for parent in install_logs.parents:
@@ -85,19 +85,19 @@ def main(tarball, install_iu, uninstall_iu):
     link = pathlib.Path(os.sep)/'usr'/'local'/'bin'/'ccstudio'
     link.symlink_to(ccstudio)
 
-    iu_to_install = install_iu
-    if len(iu_to_install) > 0:
-        print('Installing IU {}'.format(iu_to_install))
-        install_iu(iu=iu_to_install, ccstudio=ccstudio)
-    else:
+    if len(install_ius) == 0:
         print('No IU specified for installation')
-
-    iu_to_uninstall = uninstall_iu
-    if len(iu_to_uninstall) > 0:
-        print('Uninstalling IU {}'.format(iu_to_uninstall))
-        uninstall_iu(iu=iu_to_uninstall, ccstudio=ccstudio)
     else:
+        for iu_to_install in install_ius:
+            print('Installing IU {}'.format(iu_to_install))
+            install_iu(iu=iu_to_install, ccstudio=ccstudio)
+
+    if len(uninstall_ius) == 0:
         print('No IU specified for uninstallation')
+    else:
+        for iu_to_uninstall in uninstall_ius:
+            print('Uninstalling IU {}'.format(iu_to_uninstall))
+            uninstall_iu(iu=iu_to_uninstall, ccstudio=ccstudio)
 
     shutil.rmtree(install)
 
