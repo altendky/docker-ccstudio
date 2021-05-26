@@ -12,8 +12,8 @@ env:
   URL: https://software-dl.ti.com/ccs/esd/CCSv9/CCS_9_2_0/exports/CCS9.2.0.00013_linux-x64.tar.gz
   TARPATH: cache/ccs.tar.gz
   TARNAME: ccs.tar.gz
-  INSTALL_IU: com.ti.cgt.c2000.18.linux.feature.group/18.12.3 com.ti.cgt.c2000.19.linux.feature.group/20.2.5
-  UNINSTALL_IU: ""
+  INSTALL_IUS: com.ti.cgt.c2000.18.linux.feature.group/18.12.3 com.ti.cgt.c2000.19.linux.feature.group/20.2.5
+  UNINSTALL_IUS: ""
 
 jobs:
   Build:
@@ -54,8 +54,8 @@ jobs:
         with:
           build-args: |
             FROM=${{ env.BASE_IMAGE_NAME }}
-            INSTALL_IU=${{ env.INSTALL_IU }}
-            UNINSTALL_IU=${{ env.UNINSTALL_IU }}
+            INSTALL_IUS=${{ env.INSTALL_IUS }}
+            UNINSTALL_IUS=${{ env.UNINSTALL_IUS }}
           context: .
           load: true
           tags: ${{ fromJSON(steps.variables.outputs.name_and_tag) }}
