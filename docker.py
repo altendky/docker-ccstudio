@@ -258,8 +258,8 @@ def process_iu(ccstudio, extras):
         'DISPLAY': ':0',
     }
 
-    # subprocess.run(post_install_command, check=True, env=display_environment)
-    #
+    subprocess.run(post_install_command, check=True, env=display_environment)
+
     # pattern = '^ccs_update'
     #
     # process = None
