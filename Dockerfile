@@ -87,7 +87,7 @@ RUN ./install-packages.sh \
 
 RUN python3 -m venv install_env
 RUN install_env/bin/pip install --upgrade pip setuptools wheel
-RUN install_env/bin/pip install click psutil
+RUN install_env/bin/pip install attrs click psutil
 RUN install_env/bin/python3 docker.py --tarball the.tar.gz
 
 FROM common
