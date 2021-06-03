@@ -42,6 +42,16 @@ class Iu:
     def approximately_equal(self, other, n):
         return self.with_imprecise_version(n=n) == other.with_imprecise_version(n=n)
 
+    def conflicts(self, others, n=2):
+        """IUs conflict if they are not equal but are approximately equal."""
+        for other in others:
+            if other == self:
+                continue
+            if self.approximately_equal(other, n=n):
+                return True
+
+        return False
+
     def __str__(self):
         version_string = '.'.join(segment for segment in self.version)
         return f'{self.name}/{version_string}'
@@ -78,7 +88,6 @@ def main(tarball, install_ius, uninstall_ius):
         print_flush(list(parent.iterdir()))
 
     with virtual_display():
-        print_flush('+++ here')
         try:
             print_flush('setup:', setup)
             subprocess.run(
@@ -96,14 +105,8 @@ def main(tarball, install_ius, uninstall_ius):
             install_logs = installed/'install_logs'
             for parent in install_logs.parents:
                 print_flush('checking: ', parent, parent.exists())
-            install_logs = list(
-                path
-                for path in install_logs.rglob('*')
-                if path.is_file()
-            )
+            install_logs = list(path for path in install_logs.rglob('*') if path.is_file())
             print_flush('potential install logs:')
-            for maybe in install_logs:
-                print_flush('   ', maybe)
             for install_log in install_logs:
                 print_flush('    --------: {}'.format(install_log))
                 with open(install_log) as f:
@@ -123,16 +126,14 @@ def main(tarball, install_ius, uninstall_ius):
         installed_ius = get_installed_ius(ccstudio=ccstudio)
         ius_to_install = requested_install_ius - installed_ius
 
+        # We need to uninstall IUs that are not equal to install request but
+        # are approximately equal to them.  While I have successfully
+        # installed, for example, 18.12.3 and 18.12.4 in the GUID, the CLI
+        # installation mechanisms seem to dislike that.
         needed_uninstall_ius = {
             installed_iu
             for installed_iu in installed_ius
-            if any(
-                (
-                    installed_iu != requested_iu
-                    and installed_iu.approximately_equal(requested_iu, n=2)
-                )
-                for requested_iu in requested_install_ius
-            )
+            if installed_iu.conflicts(others=requested_install_ius, n=2)
         }
 
         ius_to_uninstall = {*needed_uninstall_ius, *requested_uninstall_ius}
@@ -223,10 +224,8 @@ def virtual_display():
     ]
 
     xvfb_process = subprocess.Popen(xvfb_command)
-    print_flush('+++ somewhere')
     try:
         x11vnc_process = subprocess.Popen(x11vnc_command)
-        print_flush('+++ there')
         try:
             yield
         finally:
