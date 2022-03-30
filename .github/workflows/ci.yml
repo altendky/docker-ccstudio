@@ -2,9 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      # Consider the Docker build push condition if changing this
+      - 'main'
+      - 'SC-559/DockerTransfer'  #delete
   pull_request:
-    branches: [ "**" ]
+    branches:
+      - "**"
 
 env:
   MAJOR_VERSION: 9

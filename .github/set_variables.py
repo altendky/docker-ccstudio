@@ -46,7 +46,7 @@ def main():
     set_output("name", name)
     set_output("tag", tag)
     set_output("name_and_tag", name_and_tag)
-    set_output("dockerhub_username", "altendky")
+    set_output("dockerhub_username", "epcpower")
 
 
 main()
