@@ -59,6 +59,7 @@ RUN ./install-packages.sh \
   automake \
   libtool \
   curl \
+  poetry \
   vim \
   nano \
   tree \
