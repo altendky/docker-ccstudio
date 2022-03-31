@@ -91,7 +91,6 @@ RUN python3 -m venv install_env
 RUN install_env/bin/pip install --upgrade pip setuptools wheel
 RUN install_env/bin/pip install attrs click psutil
 RUN install_env/bin/python3 docker.py --tarball the.tar.gz
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 
 FROM common
 COPY --from=build /opt/ti/ccs /opt/ti/ccs
