@@ -18,6 +18,19 @@ export DEBIAN_FRONTEND=noninteractive
 # Update the package listing, so we know what package exist:
 apt-get update
 
+#install universe so we can install more packages & update the package listing again
+apt-get install -y software-properties-common
+add-apt-repository universe          
+apt-get update
+
+#apt-get install -y tar
+
+#download & install oclint (no apt-get)
+#apt-get install -y wget
+#apt-get install -y tar
+#wget https://github.com/oclint/oclint/releases/download/v21.03/oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz
+#tar -xf oclint-21.03-llvm-11.1.0-x86_64-linux-ubuntu-20.04.tar.gz
+
 # Install security updates:
 apt-get --yes upgrade
 
